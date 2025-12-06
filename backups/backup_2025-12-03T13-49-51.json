@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "69303d59a82adc595beb35c4",
+    "userID": 7,
+    "name": "Inam",
+    "value": "1",
+    "createdAt": "2025-12-03T13:38:33.602Z"
+  },
+  {
+    "_id": "69303d71a82adc595beb35c5",
+    "userID": 8,
+    "name": "Inam Ullah",
+    "value": "2",
+    "createdAt": "2025-12-03T13:38:57.300Z"
+  },
+  {
+    "_id": "69303d8ca82adc595beb35c6",
+    "userID": 9,
+    "name": "basit",
+    "value": "2",
+    "createdAt": "2025-12-03T13:39:24.624Z"
+  }
+]

@@ -1,13 +1,30 @@
-const vaultEvents = require('./index');
+const fs = require('fs');
+const path = require('path');
 
-vaultEvents.on('recordAdded', record => {
-  console.log(`[EVENT] Record added: ID ${record.id}, Name: ${record.name}`);
-});
+// Attach to db emitter
+const LOG_DIR = path.join(__dirname, '..', 'logs');
+const LOG_FILE = path.join(LOG_DIR, 'db.log');
 
-vaultEvents.on('recordUpdated', record => {
-  console.log(`[EVENT] Record updated: ID ${record.id}, Name: ${record.name}`);
-});
+// ensure log dir
+if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
 
-vaultEvents.on('recordDeleted', record => {
-  console.log(`[EVENT] Record deleted: ID ${record.id}, Name: ${record.name}`);
-});
+function writeLog(line) {
+	const ts = new Date().toISOString();
+	const out = `[${ts}] ${line}\n`;
+	fs.appendFile(LOG_FILE, out, () => {});
+	console.log(out.trim());
+}
+
+// safe subscribe: if db/emmiter load fails, don't crash
+try {
+	const db = require('../db');
+	if (db && db.emitter && db.emitter.on) {
+		db.emitter.on('add', rec => writeLog(`ADD id=${rec.id} name=${rec.name}`));
+		db.emitter.on('update', rec => writeLog(`UPDATE id=${rec.id} name=${rec.name}`));
+		db.emitter.on('delete', rec => writeLog(`DELETE id=${rec.id} name=${rec.name}`));
+	}
+} catch (e) {
+	// couldn't attach to emitter; skip logging subscriptions for now
+}
+
+module.exports = {};
