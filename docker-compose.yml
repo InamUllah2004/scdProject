@@ -1,0 +1,34 @@
+version: "3.0"
+
+services:
+  backend:
+    image: inamullah2004/scd-project-1:1.0
+    container_name: nodevault-test-13
+    depends_on:
+      - mongodb
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - PORT=${PORT}
+    networks:
+      - scd-network
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+
+  mongodb:
+    image: mongo:6
+    container_name: nodevault-mongo-11
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - scd-network
+    ports:
+      - "27017:27017"
+
+networks:
+  scd-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
