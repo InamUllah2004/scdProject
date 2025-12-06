@@ -283,3 +283,4 @@ async function menu() {
 		process.exit(1);
 	}
 })();
+////////////////////////////////Adding the version/////////////////////
